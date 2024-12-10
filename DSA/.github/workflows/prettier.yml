@@ -1,0 +1,36 @@
+name: Prettier check
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    prettier:
+        name: Run prettier
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run prettier
+              run: npm run format -- --check
+
+            - name: Check for Prettier compilence
+              run: |
+                  if [ $? -ne 0 ]; then
+                    echo "::error file=::Prettier found unformatted files. Please run Prettier locally."
+                    exit 1
+                  fi
