@@ -74,3 +74,25 @@ console.log(myFourthArray);
 for (let element of myFourthArray) {
     console.log(element);
 }
+/**
+ * @description const is block-scoped; variables declared with const cannot be redeclared or reassigned.
+ */
+const PORT = 5000;
+console.log(`PORT: ${PORT}`);
+
+/**
+ * @description var is function-scoped; variables declared with var can be redeclared and reassigned.
+ * Avoid using var due to potential issues with hoisting and scoping.
+ */
+var host = 'localhost';
+console.log(`Host: ${host}`);
+host = '127.0.0.1';
+console.log(`Updated Host: ${host}`);
+
+/**
+ * @description let is block-scoped; variables declared with let can be reassigned but cannot be redeclared within the same scope.
+ */
+let protocol = 'http';
+console.log(`Protocol: ${protocol}`);
+protocol = 'https';
+console.log(`Updated Protocol: ${protocol}`);
