@@ -5,26 +5,28 @@
 - next pointer only points forward, there is no backward pointer; that's why we its a singly linked list.
 
 - Node Class
+
 ```typescript
 class Node<T> {
-	value:	T;
-	next: Node<T> | null;
+    value: T;
+    next: Node<T> | null;
 
-	constructor(value: T) {
-		this.value = value;
-		this.next = next;
-	}
+    constructor(value: T) {
+        this.value = value;
+        this.next = next;
+    }
 }
 ```
 
 - LinkedList class
-- `add(value: T)` - Adds a value to the end of the linked list. 
-- `remove(value: T)` - Removes the first occurrence of the given value. 
-- `find(value: T)` - Searches for the first occurrence of the given value. 
-- `isEmpty()` - Returns `true` if the linked list is empty. 
-- `size()` - Returns the number of nodes in the linked list. 
+- `add(value: T)` - Adds a value to the end of the linked list.
+- `remove(value: T)` - Removes the first occurrence of the given value.
+- `find(value: T)` - Searches for the first occurrence of the given value.
+- `isEmpty()` - Returns `true` if the linked list is empty.
+- `size()` - Returns the number of nodes in the linked list.
 - `toArray()` - Converts the linked list into an array for visualization.
-```typescript 
+
+```typescript
 class LinkedList<T> {
     private head: Node<T> | null;
 
@@ -134,8 +136,6 @@ class LinkedList<T> {
         return count;
     }
 }
-
 ```
 
-
-
+- In Linked List, deletion and insertion at head happen in a constant amount of time,
