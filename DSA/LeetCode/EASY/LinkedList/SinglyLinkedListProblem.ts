@@ -62,4 +62,50 @@ class LinkedList<T> {
 
         return length;
     }
+
+    removeDuplicate(): Node<T> | null {
+        if (!this.head) return null;
+        if (!this.head.next) return this.head;
+
+        let current = this.head;
+
+        while (current.next) {
+            let currentNext = current;
+            while (currentNext) {
+                if (
+                    current.next !== null &&
+                    currentNext.value === current.value
+                ) {
+                    currentNext.next = current.next.next;
+                } else {
+                    current = current.next!;
+                }
+            }
+            current = current.next!;
+        }
+
+        return this.head;
+    }
+
+    nthNodeFromEnd(n: number): Node<T> | null {
+        let current = this.head;
+        let length = 0;
+
+        while (current) {
+            current = current.next;
+            length++;
+        }
+
+        let nthPosition = length - n;
+        if (nthPosition < 0 || nthPosition > length) {
+            return null;
+        }
+
+        let nthNode = this.head;
+        for (let i = 0; i < nthPosition; i++) {
+            nthNode = nthNode!.next;
+        }
+
+        return nthNode;
+    }
 }
