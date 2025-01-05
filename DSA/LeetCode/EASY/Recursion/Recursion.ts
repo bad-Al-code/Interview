@@ -52,7 +52,75 @@ function factorailRecursive(n: number): number {
         throw new Error('Factorial is not defined for negative numbers.');
     }
 
-    if (n === 0) return 1;
+    if (n <= 1) return 1;
 
     return n * factorailRecursive(n - 1);
 }
+
+console.log(factorailRecursive(5));
+console.log(factorailIterative(5));
+
+/**
+ * Calculates the nth Fibonacci number using an iterative approach.
+ *
+ * @param {number} n - position in fibonacci sequence.
+ * @returns {number} - The nth factorail number.
+ *
+ * @example
+ * const result = fibonacciIterative(6); // Returns 8
+ *
+ * @logic
+ * 1. Start with the first two fibonacci number (0 and 1).
+ * 2. Iteratively calculate subsequnect fibonacci number by summin the previous two.
+ * 3. Stop whn thr nth fibonacci number is reached.
+ *
+ * @timeComplexity O(n) - One iteration through sequnece
+ * @spaceComplexity O(1) - Constanct space.
+ */
+function fibonacciIterative(n: number): number {
+    if (n < 0) throw new Error('Input must be no=negative integer');
+
+    if (n === 0) return 0;
+    if (n === 1) return 1;
+
+    let prev = 0,
+        curr = 1;
+
+    for (let i = 2; i <= n; i++) {
+        const temp = curr;
+        curr = curr + prev;
+        prev = temp;
+    }
+
+    return curr;
+}
+
+/**
+ * Calculates the nth Fibonacci number using a recursive approach.
+ *
+ * @param {number} n - The position in the Fibonacci sequence (0-based index).
+ * @returns {number} - The nth Fibonacci number.
+ *
+ * @example
+ * const result = fibonacciRecursive(6); // 8
+ *
+ * @logic
+ * - The nth Fibonacci number is defined as:
+ *   - F(0) = 0
+ *   - F(1) = 1
+ *   - F(n) = F(n-1) + F(n-2) for n > 1
+ * - Recursively calculate F(n-1) and F(n-2) until reaching the base cases.
+ *
+ * @timeComplexity O(2^n) - Exponential growth due to repeated calculations.
+ * @spaceComplexity O(n) - Stack space used for recursive calls.
+ */
+function fibonacciRecursive(n: number): number {
+    if (n < 0) throw new Error('Input must be a non-negative integer.');
+    if (n === 0) return 0;
+    if (n === 1) return 1;
+
+    return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+}
+
+console.log(fibonacciIterative(6));
+console.log(fibonacciRecursive(6));
