@@ -16,27 +16,21 @@
 Lets use Arrays:
 
 ```typesript
-class Stack<T> {
-	constructor() {
-		this.items = [];
-		this.top = null;
-	}
+class Stack {
+    constructor() {
+        this.stack = new Array();
+    }
 
-	getTop() {
-		if(this.items.length === 0) {
-			return null;
-		}
-		return this.top()
-	}
+    push(n) {
+        this.stack.push(n);
+    }
 
-	isEmpty() {
-		return this.items.length === 0;
-	}
+    pop() {
+        return this.stack.pop();
+    }
 
-	size() {
-		return this.items.length;
-	}
+    size() {
+        return this.stack.length;
+    }
 }
-
-const myStack = new Stack<number>();
 ```
