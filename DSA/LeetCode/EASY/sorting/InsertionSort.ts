@@ -16,7 +16,7 @@ function insertionSort(array: number[]): number[] {
     for (let i = 0; i < array.length; i++) {
         let j = i - 1;
         while (array[j + 1] < array[j] && j >= 0) {
-            let temp = array[j];
+            let temp = array[j + 1];
             array[j + 1] = array[j];
             array[j] = temp;
 
