@@ -34,3 +34,43 @@ function insertionSort(array: number[]): number[] {
 
     return array;
 }
+
+/**
+ * Sorts an array containing only 0, 1, and 2 using bucket sort.
+ *
+ * @param {number[]} arr - Input array
+ * @returns {number[]} Sorted Array
+ *
+ * @example
+ * const arr = [2, 0, 1, 2, 0, 1];
+ * const sortedArr = bucketSort(arr);
+ * console.log(sortedArr); // Output: [0, 0, 1, 1, 2, 2]
+ *
+ * @logic
+ * - Count the occurrences of 0, 1, and 2 in the array using a `counts` array.
+ * - Iterate through the `counts` array and overwrite the original array with
+ *   the sorted values.
+ *
+ * @timeComplexity O(n) - Two passes:  one to count occurrences and another to update the array.
+ * @spaceComplexity O(1) - USed a fixed-sized array for counts.
+ */
+function bucketSort(arr: number[]): number[] {
+    const counts: number[] = [0, 0, 0];
+
+    for (let i = 0; i < arr.length; i++) {
+        counts[arr[i]] += 1;
+    }
+
+    let index = 0;
+    for (let n = 0; n < arr.length; n++) {
+        for (let j = 0; j < counts[n]; j++) {
+            arr[index] = n;
+            index++;
+        }
+    }
+
+    return arr;
+}
+
+const arr = [2, 0, 1, 2, 0, 1];
+console.log(bucketSort(arr));
