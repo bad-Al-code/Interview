@@ -21,58 +21,33 @@ export class BinarySearchTree<T> {
         this.root = null;
     }
 
-    /**
-     * @param {T} value - value to be insertd
-     * @returns  {TreeNode<T>|null}
-     */
-    insert(value: T): TreeNode<T> | null {
+    insert(root: TreeNode<T> | null, value: T): TreeNode<T> | null {
         const newNode = new TreeNode(value);
-        if (!this.root) {
-            this.root = newNode;
-            return this.root;
+
+        if (!root) {
+            return newNode;
         }
 
-        let current = this.root;
-        while (current) {
-            if (value > current.value) {
-                if (current.right === null) {
-                    current.right = newNode;
-                    return this.root;
-                }
-                current = current.right;
-            } else if (value < current.value) {
-                if (current.left === null) {
-                    current.left = newNode;
-
-                    return this.root;
-                }
-                current = current.left;
-            }
+        if (value > root.value) {
+            root.right = this.insert(root.right, value);
+        } else if (value < root.value) {
+            root.left = this.insert(root.left, value);
         }
 
-        return this.root;
+        return root;
     }
 
-    /**
-     * Minimum value on the BST.
-     * @param {TreeNode<T>|null} node - root nide
-     * @returns {TreeNode<T>|null} Returns node with minimum value
-     */
-    minimumValueNode(node: TreeNode<T> | null): TreeNode<T> | null {
-        let current = node;
-        while (current && current.left) {
-            current = current.left;
+    minimumValueNode(root: TreeNode<T> | null): TreeNode<T> | null {
+        let curr = root;
+        while (curr && curr.left) {
+            curr = curr.left;
         }
-        return current;
+
+        return curr;
     }
 
-    /**
-     * Remove a node with given value
-     * @param {T} value
-     * @returns {TreeNode<T> | null} Root of the tree after removal
-     */
     remove(root: TreeNode<T> | null, value: T): TreeNode<T> | null {
-        if (root === null) {
+        if (!root) {
             return null;
         }
 
@@ -81,14 +56,14 @@ export class BinarySearchTree<T> {
         } else if (value < root.value) {
             root.left = this.remove(root.left, value);
         } else {
-            if (root.left === null) {
+            if (!root.left) {
                 return root.right;
-            } else if (root.right === null) {
+            } else if (!root.right) {
                 return root.left;
             } else {
                 let minNode = this.minimumValueNode(root.right)!;
-                root.value = minNode.value;
-                root.right = this.remove(root.right, minNode.value);
+                root.value = minNode?.value;
+                root.right = this.remove(root.right, minNode?.value);
             }
         }
 
@@ -96,12 +71,12 @@ export class BinarySearchTree<T> {
     }
 }
 
-const bst = new BinarySearchTree<number>();
-bst.insert(10);
-bst.insert(5);
-bst.insert(15);
-bst.insert(3);
-bst.insert(7);
-
-console.log('Before deletion:');
-console.log(bst.root);
+// const bst = new BinarySearchTree<number>();
+// bst.insert(10);
+// bst.insert(5);
+// bst.insert(15);
+// bst.insert(3);
+// bst.insert(7);
+//
+// console.log('Before deletion:');
+// console.log(bst.root);
