@@ -52,6 +52,48 @@ export class BinarySearchTree<T> {
 
         return this.root;
     }
+
+    /**
+     * Minimum value on the BST.
+     * @param {TreeNode<T>|null} node - root nide
+     * @returns {TreeNode<T>|null} Returns node with minimum value
+     */
+    minimumValueNode(node: TreeNode<T> | null): TreeNode<T> | null {
+        let current = node;
+        while (current && current.left) {
+            current = current.left;
+        }
+        return current;
+    }
+
+    /**
+     * Remove a node with given value
+     * @param {T} value
+     * @returns {TreeNode<T> | null} Root of the tree after removal
+     */
+    remove(root: TreeNode<T> | null, value: T): TreeNode<T> | null {
+        if (root === null) {
+            return null;
+        }
+
+        if (value > root.value) {
+            root.right = this.remove(root.right, value);
+        } else if (value < root.value) {
+            root.left = this.remove(root.left, value);
+        } else {
+            if (root.left === null) {
+                return root.right;
+            } else if (root.right === null) {
+                return root.left;
+            } else {
+                let minNode = this.minimumValueNode(root.right)!;
+                root.value = minNode.value;
+                root.right = this.remove(root.right, minNode.value);
+            }
+        }
+
+        return root;
+    }
 }
 
 const bst = new BinarySearchTree<number>();
