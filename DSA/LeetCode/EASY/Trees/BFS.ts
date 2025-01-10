@@ -18,11 +18,12 @@ class BFS<T> {
         while (queue.length > 0) {
             console.log('level ' + level + ': ');
 
-            for (let i = 0; i < queue.length; i++) {
+            let levelLength = queue.length;
+            for (let i = 0; i < levelLength; i++) {
                 let curr = queue.shift();
-                console.log(curr!.value + ' ');
 
                 if (curr) {
+                    console.log(curr.value + ' ');
                     if (curr.left) {
                         queue.push(curr.left);
                     }
