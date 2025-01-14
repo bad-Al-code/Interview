@@ -52,14 +52,20 @@ function solveNQueens(n: number): string[][] {
 }
 
 function main(): void {
-    const n: number[] = [4, 5, 6, 7, 8];
+    const n: number[] = [4, 15, 5, 6, 7, 8];
     for (let i = 0; i < n.length; i++) {
-        console.log(`${i + 1}.	Queens: ${n[i]}, Chessboard: (${n[i]}x${n[i]})`);
+        console.log(
+            `${i + 1}.\tQueens: ${n[i]}, Chessboard: (${n[i]}x${n[i]})`,
+        );
+        const startTime = performance.now();
         const res = solveNQueens(n[i]);
+        const endTime = performance.now();
+        const timeTaken = ((endTime - startTime) / 1000).toFixed(3);
         console.log(
             `\n\tTotal solutions count for ${n[i]} queens on a (${n[i]}x${n[i]}) chessboard: ${res.length}`,
         );
-        console.log('-'.repeat(100), '\n');
+        console.log(`\tTime taken: ${timeTaken} seconds`);
+        console.log('*'.repeat(100), '\n');
     }
 }
 
