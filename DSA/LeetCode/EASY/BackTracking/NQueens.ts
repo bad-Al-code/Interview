@@ -1,58 +1,59 @@
-function isValidMove(
-    proposedRow: number,
-    proposedCol: number,
-    solution: number[],
-): boolean {
-    for (let i = 0; i < proposedRow; i++) {
+function isValid(givenRow: number, givenCol: number, output: number[]) {
+    for (let i = 0; i < givenRow; i++) {
         const oldRow = i;
-        const oldCol = solution[i];
-        const diagonalOffset = proposedRow - oldRow;
+        const oldCol = output[i];
+        const diagonalOffset = givenRow - oldRow;
 
         if (
-            oldCol === proposedCol ||
-            oldCol === proposedCol - diagonalOffset ||
-            oldCol === proposedCol + diagonalOffset
+            oldCol === givenCol ||
+            oldCol === givenCol - diagonalOffset ||
+            oldCol === givenCol + diagonalOffset
         ) {
             return false;
         }
     }
+
     return true;
 }
 
-function solveNQueensRec(
-    n: number,
-    solution: number[],
+function solveNQueensHelper(
     row: number,
-    results: string[][],
+    n: number,
+    result: string[][],
+    output: number[],
 ): void {
     if (row === n) {
-        const board = solution.map((col) => {
-            const rowArray = new Array(n).fill('.');
-            rowArray[col] = 'Q';
-            return rowArray.join('');
+        const createBoard = output.map((col) => {
+            const newRowArray = new Array(n).fill('.');
+            newRowArray[col] = 'Q';
+            return newRowArray.join('');
         });
-        results.push(board);
+
+        result.push(createBoard);
         return;
     }
 
     for (let i = 0; i < n; i++) {
-        const valid = isValidMove(row, i, solution);
+        const valid = isValid(row, i, output);
+
         if (valid) {
-            solution[row] = i;
-            solveNQueensRec(n, solution, row + 1, results);
+            output[row] = i;
+            solveNQueensHelper(row + 1, n, result, output);
         }
     }
 }
 
 function solveNQueens(n: number): string[][] {
-    const results: string[][] = [];
-    const solution: number[] = new Array(n).fill(-1);
-    solveNQueensRec(n, solution, 0, results);
-    return results;
+    const result: string[][] = [];
+    const output: number[] = new Array(n).fill(-1);
+
+    solveNQueensHelper(0, n, result, output);
+
+    return result;
 }
 
 function main(): void {
-    const n: number[] = [4, 15, 5, 6, 7, 8];
+    const n: number[] = [2, 3, 5, 6, 7, 8];
     for (let i = 0; i < n.length; i++) {
         console.log(
             `${i + 1}.\tQueens: ${n[i]}, Chessboard: (${n[i]}x${n[i]})`,
