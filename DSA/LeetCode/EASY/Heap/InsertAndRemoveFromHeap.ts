@@ -64,6 +64,48 @@ class Heap {
 
         return result;
     }
+
+    /**
+     * Convert an array into a heap in-place
+     * @param {number[]} arr - the array to be heapified
+     */
+    heapify(arr: number[]): void {
+        arr.push(arr[0]); // move 0-th indexed element to end to make 1indexed
+
+        this.heap = arr;
+        let cur = Math.floor((this.heap.length - 1) / 2);
+
+        while (cur > 0) {
+            // percolate down
+            let i = cur;
+
+            while (2 * i < this.heap.length) {
+                const leftChild = 2 * i;
+                const rightChild = 2 * i + 1;
+
+                if (
+                    rightChild < this.heap.length &&
+                    this.heap[rightChild] < this.heap[leftChild] &&
+                    this.heap[i] > this.heap[rightChild]
+                ) {
+                    [this.heap[i], this.heap[rightChild]] = [
+                        this.heap[rightChild],
+                        this.heap[i],
+                    ];
+                    i = rightChild;
+                } else if (this.heap[i] > this.heap[leftChild]) {
+                    [this.heap[i], this.heap[leftChild]] = [
+                        this.heap[leftChild],
+                        this.heap[i],
+                    ];
+                    i = leftChild;
+                } else {
+                    break;
+                }
+            }
+            cur--;
+        }
+    }
 }
 
 export default Heap;
