@@ -12,7 +12,7 @@ function dfs(
         row === board.length ||
         col < 0 ||
         col === board[0].length ||
-        board[row][col].toLowerCase() !== word[0].toLowerCase()
+        board[row][col] !== word[0]
     ) {
         return false;
     }
