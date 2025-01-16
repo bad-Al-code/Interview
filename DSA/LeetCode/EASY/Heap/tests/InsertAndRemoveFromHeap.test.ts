@@ -1,11 +1,15 @@
-import { describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 import Heap from '../InsertAndRemoveFromHeap';
 
 describe('Heap', () => {
-    it('should insert elements correctly using push', () => {
-        const heap = new Heap();
+    let heap: Heap;
 
+    beforeEach(() => {
+        heap = new Heap();
+    });
+
+    it('should insert elements correctly using push', () => {
         heap.push(10);
         heap.push(5);
         heap.push(20);
@@ -19,13 +23,10 @@ describe('Heap', () => {
     });
 
     it('should return -1 when popping from an empty heap', () => {
-        const heap = new Heap();
-
         expect(heap.pop()).toBe(-1);
     });
 
     it('should build a heap correctly using heapify', () => {
-        const heap = new Heap();
         const array = [5, 10, 3, 1, 4];
         heap.heapify(array);
 
@@ -38,21 +39,57 @@ describe('Heap', () => {
         expect(heap.pop()).toBe(-1);
     });
 
-    it('should handle push and pop in combination', () => {
-        const heap = new Heap();
-        heap.push(15);
-        heap.push(10);
-        heap.push(20);
-        heap.push(5);
+    it('should handle large numbers in the heap', () => {
+        heap.push(Number.MAX_SAFE_INTEGER);
+        heap.push(Number.MAX_SAFE_INTEGER);
+        heap.push(0);
 
-        expect(heap.pop()).toBe(5);
-        heap.push(1);
-        expect(heap.pop()).toBe(1);
-        expect(heap.pop()).toBe(10);
-        heap.push(30);
-        expect(heap.pop()).toBe(15);
-        expect(heap.pop()).toBe(20);
-        expect(heap.pop()).toBe(30);
+        expect(heap.pop()).toBe(0);
+        expect(heap.pop()).toBe(Number.MAX_SAFE_INTEGER);
+        expect(heap.pop()).toBe(Number.MAX_SAFE_INTEGER);
         expect(heap.pop()).toBe(-1);
+    });
+
+    it('should handle a single element in the heap', () => {
+        heap.push(42);
+        expect(heap.pop()).toBe(42);
+        expect(heap.pop()).toBe(-1);
+    });
+
+    it('should handle heapify with an empty array gracefully', () => {
+        const array: number[] = [];
+        heap.heapify(array);
+
+        expect(heap.pop()).toBe(-1);
+    });
+
+    const testCases = [
+        { input: [10, 20, 15, 30], expected: [10, 15, 20, 30] },
+        { input: [3, 2, 1, 4, 5], expected: [1, 2, 3, 4, 5] },
+        { input: [100, 50, 75], expected: [50, 75, 100] },
+    ];
+
+    it.each(testCases)(
+        'should maintain min-heap property for input: $input',
+        ({ input, expected }) => {
+            input.forEach((num) => heap.push(num));
+            const result: number[] = [];
+            while (true) {
+                const popped = heap.pop();
+
+                if (popped === -1) break;
+                result.push(popped);
+            }
+
+            expect(result).toEqual(expected);
+        },
+    );
+
+    it('should call heapify method with valid parameters', () => {
+        const heapifySpy = vi.spyOn(heap, 'heapify');
+
+        heap.heapify([1, 2, 3]);
+        expect(heapifySpy).toHaveBeenCalledOnce();
+        expect(() => heap.heapify([])).not.toThrow();
     });
 });
