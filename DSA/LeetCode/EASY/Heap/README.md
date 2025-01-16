@@ -7,8 +7,7 @@
 
 ### Heap must be a complete binary trees
 
-- A complete binary tree is a tree where each node has at most two chldren and the nodes at all levels are full,
-  excepts for the leaf nodes which can be _empty_.
+- A complete binary tree is a tree where each node has at most two chldren and the nodes at all levels are full, excepts for the leaf nodes which can be _empty_.
 
 - Complete Binary Tree properties
     - all levels are either at depth d or depth d-1
