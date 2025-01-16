@@ -3,8 +3,11 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "format": "prettier '**/*.ts' --write",
-        "format:check": "prettier '**/*.ts' --check"
+        "format": "prettier . --write",
+        "format:check": "prettier '**/*.ts' --check",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:coverage": "vitest --coverage"
     },
     "keywords": [],
     "author": "",
@@ -12,6 +15,7 @@
     "description": "",
     "devDependencies": {
         "prettier": "^3.4.2",
-        "typescript": "^5.7.2"
+        "typescript": "^5.7.2",
+        "vitest": "^3.0.0"
     }
 }
