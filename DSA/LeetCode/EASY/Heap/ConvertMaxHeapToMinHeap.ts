@@ -7,7 +7,7 @@
  * @param {number} i - index of current node
  * @param {number} size - size of the heap
  */
-function minHeapify(heap: number[], i: number, size: number): void {
+export function minHeapify(heap: number[], i: number, size: number): void {
     let smallest = i;
     const left = 2 * i;
     const right = 2 * i + 1;
@@ -32,7 +32,7 @@ function minHeapify(heap: number[], i: number, size: number): void {
  * @param {number[]} maxHeap - max heap array to be converted
  * @returns {number[]} Converted Min Heap
  */
-function convertMax(maxHeap: number[]): number[] {
+export function convertMax(maxHeap: number[]): number[] {
     const size = maxHeap.length;
 
     for (let i = Math.floor(size / 2) - 1; i >= 0; i--) {
