@@ -77,7 +77,7 @@ function kSmallestPairs(
     minHeapify(minHeap);
 
     while (k > 0 && minHeap.length > 0) {
-        const [sum, i, j] = extractMin(minHeap);
+        const [_, i, j] = extractMin(minHeap);
         result.push([nums1[i], nums2[j]]);
         k--;
 
