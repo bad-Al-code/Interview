@@ -3,7 +3,7 @@
  * @param {number} i
  * @param {number} size: size of the heap
  */
-function heapify(heap: number[], i: number, size: number): void {
+export function heapify(heap: number[], i: number, size: number): void {
     let largest = i;
     let left = 2 * i;
     let right = 2 * i + 1;
@@ -25,10 +25,10 @@ function heapify(heap: number[], i: number, size: number): void {
 /**
  * @param {number[]} nums
  */
-function buildmaxheap(nums: number[]): void {
+export function buildmaxheap(nums: number[]): void {
     const size = nums.length;
 
-    for (let i = math.floor(size / 2) - 1; i >= 0; i--) {
+    for (let i = Math.floor(size / 2) - 1; i >= 0; i--) {
         heapify(nums, i, size);
     }
 }
@@ -38,7 +38,9 @@ function buildmaxheap(nums: number[]): void {
  * @param {number} k - 1-indexed
  * @returns {number}
  */
-function findkthlargest(nums: number[], k: number): number {
+export function findkthlargest(nums: number[], k: number): number {
+    if (k <= 0) throw new Error('k must be a positve integer');
+    if (k > nums.length) throw new Error('k is out of bounds of the array');
     buildmaxheap(nums);
 
     let size = nums.length;
