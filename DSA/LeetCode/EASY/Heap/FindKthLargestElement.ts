@@ -25,10 +25,10 @@ function heapify(heap: number[], i: number, size: number): void {
 /**
  * @param {number[]} nums
  */
-function buildMaxHeap(nums: number[]): void {
+function buildmaxheap(nums: number[]): void {
     const size = nums.length;
 
-    for (let i = Math.floor(size / 2) - 1; i >= 0; i--) {
+    for (let i = math.floor(size / 2) - 1; i >= 0; i--) {
         heapify(nums, i, size);
     }
 }
@@ -38,8 +38,8 @@ function buildMaxHeap(nums: number[]): void {
  * @param {number} k - 1-indexed
  * @returns {number}
  */
-function findKthLargest(nums: number[], k: number): number {
-    buildMaxHeap(nums);
+function findkthlargest(nums: number[], k: number): number {
+    buildmaxheap(nums);
 
     let size = nums.length;
     for (let i = 0; i < k - 1; i++) {
@@ -54,4 +54,4 @@ function findKthLargest(nums: number[], k: number): number {
 
 const nums10 = [3, 2, 1, 5, 6, 4];
 const k1 = 2;
-console.log(`The ${k1}th largest element is:`, findKthLargest(nums10, k1));
+console.log(`the ${k1}th largest element is:`, findkthlargest(nums10, k1));
