@@ -25,7 +25,7 @@ This structure allows traversal in both forward and backward directions, unlike 
 
 - Requires extra memory for the additional pointer in each node.
 
-```typescript 
+```typescript
 class DoublyListNode {
     val: number;
     next: DoublyListNode | null;
@@ -103,8 +103,7 @@ class DoublyLinkedList {
             result.push(curr!.val);
             curr = curr!.next;
         }
-        console.log(result.join(" -> "));
+        console.log(result.join(' -> '));
     }
 }
-
 ```
