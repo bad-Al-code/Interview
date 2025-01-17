@@ -45,3 +45,11 @@ function hashTrunc(key) {
     - for each slot of our hash table, we holds a pointer to a linked list.
 - Resize the array
     - we set a threshold, once its crossed, increase the table size (roughly double)
+
+### Tress vs Hash Tables
+
+- on average, hash table perfors insertion, deletion and serch on constant time, whereas treess work in O(logn) time.
+- on worst case: hashtables takes O(n) times, however AVL tress would maintatin O(logn) time
+
+- theres no hash function on tress so they need only space when needed.
+- AVL or BST tree maintain an order whereas hash table store datat randomly.
