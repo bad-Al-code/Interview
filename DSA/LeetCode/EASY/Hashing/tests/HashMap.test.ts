@@ -57,4 +57,44 @@ describe('HashMap', () => {
             expect(hashMap.get('key1')).toBeNull();
         });
     });
+
+    describe('remove()', () => {
+        it('should remove a key-value pair', () => {
+            hashMap.put('key1', 1);
+            hashMap.remove('key1');
+            expect(hashMap.get('key1')).toBeNull();
+        });
+
+        it('should handle removal of a non-existing key gracefully', () => {
+            expect(() => hashMap.remove('key1')).not.toThrow();
+        });
+
+        it('should not break map functionality after removal', () => {
+            hashMap.put('key1', 1);
+            hashMap.put('key2', 2);
+            hashMap.remove('key1');
+            expect(hashMap.get('key2')).toBe(2);
+        });
+    });
+
+    describe('rehash()', () => {
+        it('should rehash when the load factor threshold is crossed', () => {
+            hashMap.put('key1', 1);
+            hashMap.put('key2', 2);
+            hashMap.put('key3', 3);
+            expect((hashMap as any).capacity).toBe(8);
+            expect(hashMap.get('key1')).toBe(1);
+            expect(hashMap.get('key2')).toBe(2);
+            expect(hashMap.get('key3')).toBe(3);
+        });
+
+        it('should preserve all elements after rehashing', () => {
+            hashMap.put('key1', 1);
+            hashMap.put('key2', 2);
+            hashMap.put('key3', 3);
+            expect(hashMap.get('key1')).toBe(1);
+            expect(hashMap.get('key2')).toBe(2);
+            expect(hashMap.get('key3')).toBe(3);
+        });
+    });
 });
