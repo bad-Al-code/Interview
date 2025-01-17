@@ -7,13 +7,16 @@
         "format:check": "prettier '**/*.ts' --check",
         "test": "vitest",
         "test:ui": "vitest --ui",
-        "test:coverage": "vitest --coverage"
+        "test:coverage": "vitest --coverage",
+        "prepare": "husky"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "description": "",
     "devDependencies": {
+        "husky": "^9.1.7",
+        "lint-staged": "^15.4.1",
         "prettier": "^3.4.2",
         "typescript": "^5.7.2",
         "vitest": "^3.0.0"
