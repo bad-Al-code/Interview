@@ -97,4 +97,37 @@ describe('HashMap', () => {
             expect(hashMap.get('key3')).toBe(3);
         });
     });
+
+    describe('Boundary and edge cases', () => {
+        it('should handle keys with the same hash code', () => {
+            hashMap.put('Aa', 1);
+            hashMap.put('BB', 2);
+            expect(hashMap.get('Aa')).toBe(1);
+            expect(hashMap.get('BB')).toBe(2);
+        });
+
+        it('should handle keys with empty string', () => {
+            hashMap.put('', 1);
+            expect(hashMap.get('')).toBe(1);
+        });
+
+        it('should handle very large keys', () => {
+            const largeKey = 'a'.repeat(1000);
+            hashMap.put(largeKey, 1);
+            expect(hashMap.get(largeKey)).toBe(1);
+        });
+
+        it('should handle numeric keys when converted to strings', () => {
+            const numberMap = new HashMap<number, string>();
+            numberMap.put(123, 'value');
+            expect(numberMap.get(123)).toBe('value');
+        });
+
+        it('should work with objects as keys when converted to strings', () => {
+            const objectMap = new HashMap<object, string>();
+            const key = { a: 1 };
+            objectMap.put(key, 'value');
+            expect(objectMap.get(key)).toBe('value');
+        });
+    });
 });
