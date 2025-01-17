@@ -1,4 +1,4 @@
-class Pair<K, V> {
+export class Pair<K, V> {
     key: K;
     val: V;
 
@@ -8,7 +8,7 @@ class Pair<K, V> {
     }
 }
 
-class HashMap<K, V> {
+export class HashMap<K, V> {
     private size: number;
     private capacity: number;
     private map: (Pair<K, V> | null)[];
