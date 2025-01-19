@@ -35,13 +35,13 @@ class Trie {
 
     /**
      * Search for a word
-     * @param {string} word
-     * @returns {boolean} True, if words exists, otherwise false.
+     * @param {string} input
+     * @returns {boolean} True, if input exists, otherwise false.
      */
-    search(word: string): boolean {
+    search(input: string): boolean {
         let curr: TrieNode = this.root;
 
-        for (const c of word) {
+        for (const c of input) {
             if (!curr.children.has(c)) {
                 return false;
             }
@@ -71,5 +71,18 @@ class Trie {
         return true;
     }
 }
+
+const trie = new Trie();
+
+trie.insert('apple');
+trie.insert('app');
+trie.insert('application');
+
+console.log(trie.search('app'));
+console.log(trie.search('appl'));
+console.log(trie.search('apple'));
+
+console.log(trie.startsWith('app'));
+console.log(trie.startsWith('ban'));
 
 export { Trie, TrieNode };
