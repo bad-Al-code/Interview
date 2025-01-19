@@ -61,11 +61,11 @@ export function findkthlargest(nums: number[], k: number): number {
 export function thirdMax(nums: number[]): number {
     const uniqueNums = Array.from(new Set(nums));
 
-    if (uniqueNums.length < 3) {
-        return Math.max(...uniqueNums);
+    if (nums.length < 3) {
+        return Math.max(...nums);
     }
 
-    return findkthlargest(uniqueNums, 3);
+    return findkthlargest(nums, 3);
 }
 
 const nums10 = [3, 2, 1, 5, 6, 4];
