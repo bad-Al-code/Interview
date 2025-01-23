@@ -44,3 +44,35 @@
 
 - array of linked list is used to store all the edges in the graph.
 - size of array === number f vertices.
+
+### Bipartite Graph
+
+- vertices of this graph are divide into two disjointed parts in such a way that no two certices in the same part are
+  adjacent to each other.
+
+##### Cyclic Graph be Bi-Partite?
+
+- cyclic graph: edges forma cycle.
+- yes, cyclic graph can be Bipartite graph.
+
+##### Types of Bi-Partite Graph
+
+- star graph
+
+- acyclic graph
+- path graph
+
+### Graph Traversal
+
+- BFS (Breadth First Search)
+- DFS (Depth First Search)
+
+##### BFS
+
+- grow breath-wise
+- level order traversal ensures thatt for any starting vertex, we can reach all others, one level at a time.
+
+##### DFS
+
+- grows depth wise
+- Starting from any node, we keep moving to an adjacent node until we reach the farthest level. Then we move back to the starting point and pick another adjacent node. Once again, we probe to the farthest level and move back. This process continues until all nodes are visited.
