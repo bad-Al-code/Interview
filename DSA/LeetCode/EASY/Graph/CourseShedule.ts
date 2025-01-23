@@ -37,4 +37,40 @@ const prerequisites = [
     [3, 2],
 ];
 
+function canFinishDFS(numCourses: number, prerequisites: number[][]): boolean {
+    const adjList = new Map<number, number[]>();
+
+    for (const [course, prereq] of prerequisites) {
+        if (!adjList.has(prereq)) adjList.set(prereq, []);
+        adjList.get(prereq)!.push(course);
+    }
+
+    const visited = new Array(numCourses).fill(false);
+    const path = new Array(numCourses).fill(false);
+
+    const hasCycle = (course: number): boolean => {
+        if (path[course]) return true;
+        if (visited[course]) return false;
+
+        visited[course] = true;
+        path[course] = true;
+
+        if (adjList.has(course)) {
+            for (const neighbor of adjList.get(course)!) {
+                if (hasCycle(neighbor)) return true;
+            }
+        }
+
+        path[course] = false;
+        return false;
+    };
+
+    for (let i = 0; i < numCourses; i++) {
+        if (hasCycle(i)) return false;
+    }
+
+    return true;
+}
+
 console.log(canFinish(numCourses, prerequisites));
+console.log(canFinishDFS(numCourses, prerequisites));
