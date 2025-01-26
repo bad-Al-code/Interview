@@ -7,12 +7,12 @@ function createCounter(init: number): Counter {
     let original = init;
     return {
         increment: () => {
-            original += 1;
+            original += 2;
             return original;
         },
 
         decrement: (): number => {
-            original -= 1;
+            original -= 2;
             return original;
         },
 
@@ -23,7 +23,16 @@ function createCounter(init: number): Counter {
     };
 }
 
-const counter = createCounter(5);
+function createCounterBetter(init: number): Counter {
+    let n = init;
+    return {
+        increment: () => ++n,
+        decrement: () => --n,
+        reset: () => (n = init),
+    };
+}
+
+const counter = createCounter(6);
 console.log(counter.increment());
 console.log(counter.decrement());
 console.log(counter.reset());
