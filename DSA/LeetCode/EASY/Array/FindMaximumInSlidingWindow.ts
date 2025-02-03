@@ -167,6 +167,29 @@ function findMaxumumInSlidingWindow(nums: number[], w: number): number[] {
     return output;
 }
 
+function maxSlidingWindow(nums: number[], k: number): number[] {
+    const result: number[] = [];
+    const deque: number[] = [];
+
+    for (let i = 0; i < nums.length; i++) {
+        if (deque.length > 0 && deque[0] < i - k + 1) {
+            deque.shift();
+        }
+
+        while (deque.length > 0 && nums[deque[deque.length - 1]] < nums[i]) {
+            deque.pop();
+        }
+
+        deque.push(i);
+
+        if (i >= k - 1) {
+            result.push(nums[deque[0]]);
+        }
+    }
+
+    return result;
+}
+
 export function main() {
     const windowSizes = [3, 3, 3, 3, 2, 4, 3, 2, 3, 18];
 
@@ -196,6 +219,15 @@ export function main() {
         );
         Array(100)
             .fill('-')
+            .forEach((char) => process.stdout.write(char));
+        console.log();
+        console.log(
+            chalk.blue(
+                `\n\tMaximum in each sliding window (leetcode):\t[${maxSlidingWindow(numLists[i], windowSizes[i])}]`,
+            ),
+        );
+        Array(100)
+            .fill('=')
             .forEach((char) => process.stdout.write(char));
         console.log();
     }
