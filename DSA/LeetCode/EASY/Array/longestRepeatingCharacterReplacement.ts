@@ -9,13 +9,13 @@ function longestRepeatingCharacterReplacements(s: string, k: number): number {
     for (let end = 0; end < stringLength; ++end) {
         const currentChar = s[end];
 
-        charFreq.set(currentChar, (charFreq.get(currentChar) ?? 0) + 1);
+        charFreq.set(currentChar, (charFreq.get(currentChar) || 0) + 1);
 
-        mostFreqChar = Math.max(mostFreqChar, charFreq.get(currentChar) ?? 0);
+        mostFreqChar = Math.max(mostFreqChar, charFreq.get(currentChar) || 0);
 
         if (end - start + 1 - mostFreqChar > k) {
             const startChar = s[start];
-            charFreq.set(startChar, (charFreq.get(startChar) ?? 1) - 1);
+            charFreq.set(startChar, (charFreq.get(startChar) || 1) - 1);
 
             start += 1;
         }
