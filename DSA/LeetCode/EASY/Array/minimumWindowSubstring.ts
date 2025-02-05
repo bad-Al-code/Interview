@@ -28,7 +28,7 @@ function minWindow(s: string, t: string): string {
     console.log(required);
 
     let res: [number, number] = [-1, -1];
-    let resLen = Infinity;
+    let resLen = Number.MAX_SAFE_INTEGER;
     let left = 0;
 
     for (let right = 0; right < s.length; right++) {
@@ -69,7 +69,9 @@ function minWindow(s: string, t: string): string {
 
     const [leftIndex, rightIndex] = res;
 
-    return resLen !== Infinity ? s.slice(leftIndex, rightIndex + 1) : '';
+    return resLen !== Number.MAX_SAFE_INTEGER
+        ? s.slice(leftIndex, rightIndex + 1)
+        : '';
 }
 
 function main() {
