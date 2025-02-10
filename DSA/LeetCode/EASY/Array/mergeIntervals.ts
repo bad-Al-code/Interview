@@ -1,6 +1,7 @@
 function mergeInterval(intervals: number[][]): number[][] {
     if (!intervals.length) return [];
 
+    // leetcode
     intervals.sort((a, b) => a[0] - b[0]);
 
     const result: number[][] = [];
