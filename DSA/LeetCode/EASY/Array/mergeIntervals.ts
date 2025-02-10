@@ -1,6 +1,8 @@
 function mergeInterval(intervals: number[][]): number[][] {
     if (!intervals.length) return [];
 
+    intervals.sort((a, b) => a[0] - b[0]);
+
     const result: number[][] = [];
 
     result.push([intervals[0][0], intervals[0][1]]);
