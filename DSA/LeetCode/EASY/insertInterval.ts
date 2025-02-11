@@ -26,6 +26,23 @@ function insertInterval(
         );
     }
 
+    while (i < n) {
+        let currInterval = exisitingIntervals[i];
+        const start = currInterval[0];
+        const end = currInterval[1];
+
+        if (output[output.length - 1][1] < start) {
+            output.push(currInterval);
+        } else {
+            output[output.length - 1][1] = Math.max(
+                output[output.length - 1][1],
+                end,
+            );
+        }
+
+        i++;
+    }
+
     return output;
 }
 
