@@ -8,15 +8,22 @@ export class ListNode {
 }
 
 function reverseList(head: ListNode | null): ListNode | null {
-    let prev: ListNode | null = null;
+    if (!head || !head.next) {
+        return null;
+    }
+
     let curr: ListNode | null = head;
+    let prev: ListNode | null = null;
+    let next: ListNode | null = null;
 
     while (curr) {
-        let next: ListNode | null = curr.next;
+        next = curr.next;
         curr.next = prev;
         prev = curr;
         curr = next;
     }
 
-    return prev;
+    head = prev;
+
+    return head;
 }
