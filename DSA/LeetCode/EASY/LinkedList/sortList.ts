@@ -34,7 +34,7 @@ function merge2Lists(
 function splitList(head: ListNode | null, step: number): ListNode | null {
     if (!head) return null;
 
-    for (let i = 0; head.next && i < step; i++) {
+    for (let i = 1; head.next && i < step; i++) {
         head = head.next;
     }
 
