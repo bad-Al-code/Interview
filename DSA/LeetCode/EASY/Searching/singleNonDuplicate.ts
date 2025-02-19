@@ -18,6 +18,16 @@ function singleNonDuplicate(arr: number[]): number {
     return arr[l];
 }
 
+function singleNumber(nums: number[]): number {
+    let result = 0;
+
+    for (let num of nums) {
+        result ^= nums[num];
+    }
+
+    return result;
+}
+
 function main() {
     let nums = [
         [1, 2, 2, 3, 3, 4, 4],
