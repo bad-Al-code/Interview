@@ -10,7 +10,7 @@ function smallestMissingPositiveInteger(nums: number[]): number {
             nums[index] !== nums[correctSpot]
         ) {
             [nums[index], nums[correctSpot]] = [nums[correctSpot], nums[index]];
-        } else if (index > numsLength) {
+        } else if (correctSpot > numsLength) {
             index++;
         } else {
             index++;
