@@ -1,22 +1,31 @@
-function helper(
+export function helper(
     capcaity: number,
     weights: number[],
     values: number[],
     n: number,
-): number {
+    dp: number[][],
+) {
     if (n === 0 || capcaity === 0) {
         return 0;
     }
 
-    if (weights[n - 1] <= capcaity) {
-        return Math.max(
-            values[n - 1] +
-                helper(capcaity - weights[n - 1], weights, values, n - 1),
-            helper(capcaity, weights, values, n - 1),
-        );
-    } else {
-        return helper(capcaity, weights, values, n - 1);
+    if (dp[n][capcaity] !== -1) {
+        return dp[n][capcaity];
     }
+
+    if (weights[n - 1] <= capcaity) {
+        dp[n][capcaity] = Math.max(
+            values[n - 1] +
+                helper(capcaity - weights[n - 1], weights, values, n - 1, dp),
+            helper(capcaity, weights, values, n - 1, dp),
+        );
+
+        return dp[n][capcaity];
+    }
+
+    dp[n][capcaity] = helper(capcaity, weights, values, n - 1, dp);
+
+    return dp[n][capcaity];
 }
 
 function maxKnapsack(
@@ -25,8 +34,11 @@ function maxKnapsack(
     values: number[],
 ): number {
     const n = weights.length;
+    const dp: number[][] = Array.from({ length: n + 1 }, () =>
+        Array(capcaity + 1).fill(-1),
+    );
 
-    return helper(capcaity, weights, values, n);
+    return helper(capcaity, weights, values, n, dp);
 }
 
 function main() {
