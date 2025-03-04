@@ -22,6 +22,33 @@
 		The Graph is connected and all nodes can be visited starting from the given node.
 */
 
-function cloneGraph(node: _Node | null): _Node | null {
-    return node;
+export class Node {
+    val: number;
+    neighbors: Node[];
+
+    constructor(val?: number, neighbors?: Node[]) {
+        this.val = val ?? 0;
+        this.neighbors = neighbors ?? [];
+    }
+}
+
+function cloneGraph(node: Node | null): Node | null {
+    if (!node) return null;
+
+    const visited = new Map<Node, Node>();
+
+    const dfs = (curr: Node): Node => {
+        if (visited.has(curr)) return visited.get(curr)!;
+
+        const copy = new Node(curr.val);
+        visited.set(curr, copy);
+
+        for (const neighbor of curr.neighbors) {
+            copy.neighbors.push(dfs(neighbor));
+        }
+
+        return copy;
+    };
+
+    return dfs(node);
 }
