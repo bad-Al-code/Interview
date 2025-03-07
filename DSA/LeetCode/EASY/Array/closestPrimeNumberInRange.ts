@@ -27,5 +27,31 @@ function closestPrimes(left: number, right: number): number[] {
         }
     }
 
-    return primePairs;
+    if (primePairs.length === 0) {
+        return [-1, -1];
+    } else {
+        return primePairs;
+    }
 }
+
+const left1 = 10;
+const right1 = 19;
+const left2 = 4;
+const right2 = 6;
+const left3 = 1;
+const right3 = 100;
+const left4 = 2;
+const right4 = 2;
+
+console.log(
+    `Closest primes in range [${left1}, ${right1}]: ${closestPrimes(left1, right1)}`,
+);
+console.log(
+    `Closest primes in range [${left2}, ${right2}]: ${closestPrimes(left2, right2)}`,
+);
+console.log(
+    `Closest primes in range [${left3}, ${right3}]: ${closestPrimes(left3, right3)}`,
+);
+console.log(
+    `Closest primes in range [${left4}, ${right4}]: ${closestPrimes(left4, right4)}`,
+);
