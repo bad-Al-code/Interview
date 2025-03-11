@@ -35,6 +35,30 @@ function numberOfSubstrings(s: string): number {
     return count;
 }
 
+/**
+ * @param { string } s
+ * @returns { number }
+ */
+function numberOfSubstringsOptimize(s: string): number {
+    const n = s.length;
+    let count = 0;
+    let left = 0;
+
+    const charCount: { [key: string]: number } = { a: 0, b: 0, c: 0 };
+
+    for (let right = 0; right < n; right++) {
+        charCount[s[right]]++;
+
+        while (charCount['a'] > 0 && charCount['b'] > 0 && charCount['c'] > 0) {
+            count += n - right;
+            charCount[s[left]]--;
+            left++;
+        }
+    }
+
+    return count;
+}
+
 function runTests() {
     const testCases: { input: string; expected: number }[] = [
         { input: 'abcabc', expected: 10 },
@@ -48,7 +72,7 @@ function runTests() {
     console.log('Running Test...');
 
     testCases.forEach((testCase, index) => {
-        const result = numberOfSubstrings(testCase.input);
+        const result = numberOfSubstringsOptimize(testCase.input);
 
         if (result === testCase.expected) {
             console.log(`Test ${index + 1} passed`);
