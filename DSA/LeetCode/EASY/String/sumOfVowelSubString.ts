@@ -1,4 +1,9 @@
 /**
+ * @fileoverview Calculates the sum of vowels in all substrings of a given word.
+ * @author bad-al (fuck)
+ */
+
+/**
  * @param { string } char
  * @returns { boolean }
  */
@@ -15,14 +20,8 @@ function countVowels(word: string): number {
     let totalVowelCount = 0;
 
     for (let i = 0; i < n; i++) {
-        for (let j = i; j < n; j++) {
-            let vowelCount = 0;
-            for (let k = i; k <= j; k++) {
-                if (isVowel(word[k])) {
-                    vowelCount++;
-                }
-            }
-            totalVowelCount += vowelCount;
+        if (isVowel(word[i])) {
+            totalVowelCount += (i + 1) * (n - i);
         }
     }
 
