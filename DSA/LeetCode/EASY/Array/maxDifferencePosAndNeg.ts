@@ -3,21 +3,62 @@
  * @author bad-al
  */
 
+///**
+// * @param { number[] } nums
+// * @returns number
+// */
+//function maximumCount(nums: number[]): number {
+//    let positiveCount: number = 0;
+//    let negativeCount: number = 0;
+//
+//    for (const num of nums) {
+//        if (num > 0) {
+//            positiveCount++;
+//        } else if (num < 0) {
+//            negativeCount++;
+//        }
+//    }
+//
+//    return Math.max(positiveCount, negativeCount);
+//}
+
 /**
  * @param { number[] } nums
  * @returns number
  */
 function maximumCount(nums: number[]): number {
-    let positiveCount: number = 0;
-    let negativeCount: number = 0;
+    const findFirstPositive = (arr: number[]): number => {
+        let left = 0;
+        let right = arr.length;
 
-    for (const num of nums) {
-        if (num > 0) {
-            positiveCount++;
-        } else if (num < 0) {
-            negativeCount++;
+        while (left < right) {
+            const mid = Math.floor((left + right) / 2);
+            if (arr[mid] > 0) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
         }
-    }
+        return left;
+    };
+
+    const findLastNegative = (arr: number[]): number => {
+        let left = 0;
+        let right = arr.length;
+
+        while (left < right) {
+            const mid = Math.floor((left + right) / 2);
+            if (arr[mid] < 0) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    };
+
+    const positiveCount = nums.length - findFirstPositive(nums);
+    const negativeCount = findLastNegative(nums);
 
     return Math.max(positiveCount, negativeCount);
 }
