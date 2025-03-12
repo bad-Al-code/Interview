@@ -1,7 +1,6 @@
 /**
  * @fileoverview Counts the umber of substrings containing at lease one occurence of 'a', 'b' and
  * @author [bad-al] (fuck)
- *
  */
 
 /**
