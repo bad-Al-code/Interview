@@ -1,33 +1,74 @@
-function isZeroArray(arr: number[]): boolean {
-    return arr.every((num) => num === 0);
+interface Query {
+    l: number;
+    r: number;
+    val: number;
 }
 
-function applyQueries(arr: number[], queriesToApply: number[][]): number[] {
-    const result = [...arr];
+/**
+ * @param queries - An array of queries in `[l, r, val]` format.
+ * @returns An array of properly structured `Query` objects.
+ */
+function parseQueries(queries: number[][]): Query[] {
+    return queries.map(([l, r, val]) => ({ l, r, val }));
+}
 
-    for (const [l, r, val] of queriesToApply) {
-        for (let i = l; i <= r; i++) {
-            result[i] = Math.max(0, result[i] - val);
+/**
+ * @param nums
+ * @param queries
+ * @param k
+ * @returns
+ */
+function canTransformToZero(
+    nums: number[],
+    queries: Query[],
+    k: number,
+): boolean {
+    const n = nums.length;
+    const diff: number[] = new Array(n + 1).fill(0);
+
+    for (let i = 0; i < k; i++) {
+        const { l, r, val } = queries[i];
+        diff[l] -= val;
+        diff[r + 1] += val;
+    }
+
+    let sum = 0;
+    const updatedNums: number[] = [...nums];
+
+    for (let i = 0; i < n; i++) {
+        sum += diff[i];
+        updatedNums[i] = Math.max(0, updatedNums[i] + sum);
+
+        if (updatedNums[i] > 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * @param nums
+ * @param queries
+ * @returns
+ */
+function minZeroArray(nums: number[], queries: Query[]): number {
+    let left = 0;
+    let right = queries.length;
+    let result = -1;
+
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+
+        if (canTransformToZero(nums, queries, mid)) {
+            result = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
         }
     }
 
     return result;
-}
-
-function minZeroArray(nums: number[], queries: number[][]): number {
-    const n = nums.length;
-    const m = queries.length;
-
-    for (let i = 0; i <= m; i++) {
-        const queriesToApply = queries.slice(0, i);
-        const modifiedNums = applyQueries(nums, queriesToApply);
-
-        if (isZeroArray(modifiedNums)) {
-            return i;
-        }
-    }
-
-    return -1;
 }
 
 export const testCases: {
@@ -115,7 +156,8 @@ export const testCases: {
 ];
 
 testCases.forEach((testCase, index) => {
-    const result = minZeroArray(testCase.nums, testCase.queries);
+    const parsedQueries = parseQueries(testCase.queries);
+    const result = minZeroArray(testCase.nums, parsedQueries);
     console.log(`Test Case ${index + 1}:`);
     console.log(`  Input nums: ${testCase.nums}`);
     console.log(`  Input queries: ${JSON.stringify(testCase.queries)}`);
