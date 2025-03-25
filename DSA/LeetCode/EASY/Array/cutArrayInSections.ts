@@ -1,3 +1,12 @@
+/**
+ * Checks if horizontal cuts can be made at the given y-coordinates.
+ *
+ * @param {number} n
+ * @param {number[][]} rectangles
+ * @param {number} cut1Y
+ * @param {number} cut2Y
+ * @returns {boolean}
+ */
 function checkHorizontalCuts(
     n: number,
     rectangles: number[][],
@@ -14,42 +23,51 @@ function checkHorizontalCuts(
         return false;
     }
 
-    let section1Rectangles: number[] = [];
-    let section2Rectangles: number[] = [];
-    let section3Rectangles: number[] = [];
+    let section1Count = 0;
+    let section2Count = 0;
+    let section3Count = 0;
 
-    rectangles.forEach((rect, index) => {
-        const [startx, starty, endx, endy] = rect;
+    for (const [startx, starty, endx, endy] of rectangles) {
+        let belongsToSection = 0;
 
         if (endy <= cut1Y) {
-            section1Rectangles.push(index);
-        } else if (starty >= cut2Y) {
-            section3Rectangles.push(index);
-        } else if (starty >= cut1Y && endy <= cut2Y) {
-            section2Rectangles.push(index);
+            section1Count++;
+            belongsToSection++;
         }
-    });
+        if (starty >= cut2Y) {
+            section3Count++;
+            belongsToSection++;
+        }
+        if (starty >= cut1Y && endy <= cut2Y) {
+            section2Count++;
+            belongsToSection++;
+        }
+        if (belongsToSection === 0) {
+            return false;
+        }
 
-    for (let i = 0; i < rectangles.length; i++) {
-        let belongsToSection = 0;
-        if (section1Rectangles.includes(i)) belongsToSection++;
-        if (section2Rectangles.includes(i)) belongsToSection++;
-        if (section3Rectangles.includes(i)) belongsToSection++;
-
-        if (belongsToSection > 1) return false;
+        if (belongsToSection > 1) {
+            return false;
+        }
     }
 
     return (
-        section1Rectangles.length > 0 &&
-        section2Rectangles.length > 0 &&
-        section3Rectangles.length > 0 &&
-        section1Rectangles.length +
-            section3Rectangles.length +
-            section2Rectangles.length ===
-            rectangles.length
+        section1Count > 0 &&
+        section2Count > 0 &&
+        section3Count > 0 &&
+        section1Count + section2Count + section3Count === rectangles.length
     );
 }
 
+/**
+ * Checks if vertical cuts can be made at the given x-coordinates.
+ *
+ * @param {number} n
+ * @param {number[][]} rectangles
+ * @param {number} cut1X
+ * @param {number} cut2X
+ * @returns {boolean}
+ */
 function checkVerticalCuts(
     n: number,
     rectangles: number[][],
@@ -66,44 +84,53 @@ function checkVerticalCuts(
         return false;
     }
 
-    let section1Rectangles: number[] = [];
-    let section2Rectangles: number[] = [];
-    let section3Rectangles: number[] = [];
+    let section1Count = 0;
+    let section2Count = 0;
+    let section3Count = 0;
 
-    rectangles.forEach((rect, index) => {
-        const [startx, starty, endx, endy] = rect;
+    for (const [startx, starty, endx, endy] of rectangles) {
+        let belongsToSection = 0;
 
         if (endx <= cut1X) {
-            section1Rectangles.push(index);
-        } else if (startx >= cut2X) {
-            section3Rectangles.push(index);
-        } else if (startx >= cut1X && endx <= cut2X) {
-            section2Rectangles.push(index);
+            section1Count++;
+            belongsToSection++;
         }
-    });
+        if (startx >= cut2X) {
+            section3Count++;
+            belongsToSection++;
+        }
+        if (startx >= cut1X && endx <= cut2X) {
+            section2Count++;
+            belongsToSection++;
+        }
+        if (belongsToSection === 0) {
+            return false;
+        }
 
-    for (let i = 0; i < rectangles.length; i++) {
-        let belongsToSection = 0;
-        if (section1Rectangles.includes(i)) belongsToSection++;
-        if (section2Rectangles.includes(i)) belongsToSection++;
-        if (section3Rectangles.includes(i)) belongsToSection++;
-
-        if (belongsToSection > 1) return false;
+        if (belongsToSection > 1) {
+            return false;
+        }
     }
 
     return (
-        section1Rectangles.length > 0 &&
-        section2Rectangles.length > 0 &&
-        section3Rectangles.length > 0 &&
-        section1Rectangles.length +
-            section2Rectangles.length +
-            section3Rectangles.length ===
-            rectangles.length
+        section1Count > 0 &&
+        section2Count > 0 &&
+        section3Count > 0 &&
+        section1Count + section2Count + section3Count === rectangles.length
     );
 }
 
+/**
+ * Checks if a grid can be cut into sections such that each section contains at least one rectangle and every rectangle belongs to exactly one section.
+ *
+ * @param {number} n
+ * @param {number[][]} rectangles
+ * @returns {boolean}
+ */
 function checkValidCuts(n: number, rectangles: number[][]): boolean {
-    for (let i = 1; i < rectangles.length; i++) {
+    if (rectangles.length < 3) return false;
+
+    for (let i = 1; i < n; i++) {
         for (let j = i + 1; j < n; j++) {
             if (checkHorizontalCuts(n, rectangles, i, j)) {
                 return true;
