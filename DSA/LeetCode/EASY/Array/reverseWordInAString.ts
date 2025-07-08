@@ -1,5 +1,9 @@
 import chalk from 'chalk';
 
+function simpleReverseWords(s: string): string {
+  return s.trim().replace(/  +/g, ' ').split(' ').reverse().join(' ')  
+};
+
 /**
  * Reverses the words in a given sentence while maintaining word order.
  * Removes extra spaces and reverses words in-place.
