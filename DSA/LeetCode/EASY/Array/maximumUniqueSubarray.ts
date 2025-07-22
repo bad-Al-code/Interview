@@ -1,23 +1,33 @@
+function createPrefixSum(nums: number[]): number[] {
+    const n = nums.length;
+
+    const prefixSum = new Array(n + 1).fill(0);
+    for (let i = 0; i < n; i++) {
+        prefixSum[i + 1] = prefixSum[i] + nums[i];
+    }
+
+    return prefixSum;
+}
+
 function maximumUniqueSubarray(nums: number[]): number {
+    const prefixSum = createPrefixSum(nums);
     let left = 0;
     let maxSum = 0;
-    let currentSum = 0;
-    const seenElements = new Set<number>();
 
+    const lastSeenIndex = new Map<number, number>();
     for (let right = 0; right < nums.length; right++) {
         const newNum = nums[right];
 
-        while (seenElements.has(newNum)) {
-            const leftMostNum = nums[left];
-            seenElements.delete(leftMostNum);
-            currentSum -= leftMostNum;
-            left++;
+        if (lastSeenIndex.has(newNum)) {
+            const prevIndex = lastSeenIndex.get(newNum)!;
+            left = Math.max(left, prevIndex + 1);
         }
 
-        seenElements.add(newNum);
-        currentSum += newNum;
+        lastSeenIndex.set(newNum, right);
 
-        maxSum = Math.max(maxSum, currentSum);
+        const currentWindowSum = prefixSum[right + 1] - prefixSum[left];
+
+        maxSum = Math.max(maxSum, currentWindowSum);
     }
 
     return maxSum;
