@@ -34,3 +34,5 @@ class Stack {
     }
 }
 ```
+
+STack is nothing but an array. 
