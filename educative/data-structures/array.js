@@ -104,3 +104,17 @@ function findProduct(arr) {
 console.log(findProduct([4, 2, 1, 5, 0]))
 
 
+
+function findMinimum(arr) {
+  let temp = arr[0]
+
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < temp) {
+      temp = arr[i]
+    }
+  }
+
+  return temp;
+}
+
+console.log(findMinimum([9, 2, 3, 6]))
