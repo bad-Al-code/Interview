@@ -82,18 +82,3 @@ console.log(findSum([1, 2, 3, 4], 5))
 console.log(findSum([1, 2, 3, 4], 10))
 
 
-
-function findMinimum(arr) {
-  let temp = arr[0]
-
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] < temp) {
-      temp = arr[i]
-    }
-  }
-
-  return temp;
-}
-
-console.log(findMinimum([9, 2, 3, 6]))
-
