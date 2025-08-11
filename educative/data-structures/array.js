@@ -81,28 +81,6 @@ function findSum(arr, value) {
 console.log(findSum([1, 2, 3, 4], 5))
 console.log(findSum([1, 2, 3, 4], 10))
 
-// Find Product 
-function findProduct(arr) {
-  let temp = 1;
-  let product = [];
-
-  for (let i = 0; i < arr.length; i++) {
-    product[i] = temp;
-    temp *= arr[i]
-  }
-
-
-  temp = 1;
-  for (let i = arr.length - 1; i > -1; i--) {
-    product[i] *= temp;
-    temp *= arr[i]
-  }
-
-  return product
-}
-
-console.log(findProduct([4, 2, 1, 5, 0]))
-
 
 
 function findMinimum(arr) {
