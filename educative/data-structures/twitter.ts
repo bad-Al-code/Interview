@@ -1,3 +1,65 @@
+class MaxHeap<T> {
+    private heap: T[] = [];
+    private comparator: (a: T, b: T) => number;
+
+    constructor(comparator: (a: T, b: T) => number) {
+        this.comparator = comparator;
+    }
+
+    public size(): number {
+        return this.heap.length;
+    }
+
+    public peek(): T | undefined {
+        return this.heap[0];
+    }
+
+    public push(value: T): void {
+        this.heap.push(value);
+        this._siftUp();
+    }
+
+    public pop(): T | undefined {
+        if (this.size() <= 1) {
+            return this.heap.pop();
+        }
+        const poppedValue = this.heap[0];
+        this.heap[0] = this.heap.pop()!;
+        this._siftDown();
+        return poppedValue;
+    }
+
+    private _siftUp(): void {
+        let nodeIdx = this.size() - 1;
+        while (nodeIdx > 0 && this._compare(nodeIdx, this.parent(nodeIdx)) > 0) {
+            this.swap(nodeIdx, this.parent(nodeIdx));
+            nodeIdx = this.parent(nodeIdx);
+        }
+    }
+
+    private _siftDown(): void {
+        let nodeIdx = 0;
+        while (
+            (this.leftChild(nodeIdx) < this.size() && this._compare(this.leftChild(nodeIdx), nodeIdx) > 0) ||
+            (this.rightChild(nodeIdx) < this.size() && this._compare(this.rightChild(nodeIdx), nodeIdx) > 0)
+        ) {
+            const greaterChildIdx = this.rightChild(nodeIdx) < this.size() &&
+                this._compare(this.rightChild(nodeIdx), this.leftChild(nodeIdx)) > 0
+                ? this.rightChild(nodeIdx)
+                : this.leftChild(nodeIdx);
+            
+            this.swap(greaterChildIdx, nodeIdx);
+            nodeIdx = greaterChildIdx;
+        }
+    }
+
+    private parent(i: number): number { return Math.floor((i - 1) / 2); }
+    private leftChild(i: number): number { return i * 2 + 1; }
+    private rightChild(i: number): number { return i * 2 + 2; }
+    private swap(i: number, j: number): void { [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]]; }
+    private _compare(i: number, j: number): number { return this.comparator(this.heap[i], this.heap[j]); }
+}
+
 class Tweet {
   public id: number;
   public timestamp: number;
@@ -35,60 +97,81 @@ class User {
   }
 }
 
+interface HeapNode {
+    tweet: Tweet;
+    userId: number;
+    tweetIndex: number; 
+}
+
 class Twitter {
-  private time: number;
-  private userMap: Map<number, User>;
-  private static readonly FEED_SIZE = 10;
+    private time: number;
+    private userMap: User[];
+    private static readonly FEED_SIZE = 10;
+    private static readonly MAX_USERS = 501; 
 
-  constructor() {
-    this.time = 0;
-    this.userMap = new Map<number, User>();
-  }
-
-  private _getUser(userId: number): User {
-    if (!this.userMap.has(userId)) {
-      this.userMap.set(userId, new User(userId));
-    }
-    return this.userMap.get(userId)!;
-  }
-
-  public postTweet(userId: number, tweetId: number): void {
-    const user = this._getUser(userId);
-    const timestamp = this.time++;
-    const tweet = new Tweet(tweetId, timestamp);
-    user.post(tweet);
-  }
-
-  public follow(followerId: number, followeeId: number): void {
-    const follower = this._getUser(followerId);
-    this._getUser(followeeId);
-    follower.follow(followeeId);
-  }
-
-  public unfollow(followerId: number, followeeId: number): void {
-    const follower = this._getUser(followerId);
-    this._getUser(followeeId);
-    follower.unfollow(followeeId);
-  }
-
- 
-  public getNewsFeed(userId: number): number[] {
-    const user = this._getUser(userId);
-    const followees = user.followed; 
-    const candidateTweets: Tweet[] = [];
-
-    for (const followeeId of followees) {
-      const followee = this.userMap.get(followeeId);
-      if (followee) {
-        const recentTweets = followee.tweets.slice(-Twitter.FEED_SIZE);
-        candidateTweets.push(...recentTweets);
-      }
+    constructor() {
+        this.time = 0;
+        this.userMap = new Array(Twitter.MAX_USERS);
     }
 
-    candidateTweets.sort((a, b) => b.timestamp - a.timestamp);
+    private _getUser(userId: number): User {
+        if (!this.userMap[userId]) {
+            this.userMap[userId] = new User(userId);
+        }
+        return this.userMap[userId];
+    }
 
-    return candidateTweets.slice(0, Twitter.FEED_SIZE).map(t => t.id);
-  }
+    public postTweet(userId: number, tweetId: number): void {
+        const user = this._getUser(userId);
+        user.post(new Tweet(tweetId, this.time++));
+    }
+    public follow(followerId: number, followeeId: number): void {
+        this._getUser(followerId).follow(followeeId);
+        this._getUser(followeeId); 
+    }
+    public unfollow(followerId: number, followeeId: number): void {
+        this._getUser(followerId).unfollow(followeeId);
+    }
+
+    public getNewsFeed(userId: number): number[] {
+        const mainUser = this._getUser(userId);
+        if (!mainUser) return [];
+
+        const heap = new MaxHeap<HeapNode>((a, b) => a.tweet.timestamp - b.tweet.timestamp);
+
+        for (const followeeId of mainUser.followed) {
+            const followee = this.userMap[followeeId];
+            if (followee && followee.tweets.length > 0) {
+                const lastTweetIndex = followee.tweets.length - 1;
+                const lastTweet = followee.tweets[lastTweetIndex];
+                heap.push({
+                    tweet: lastTweet,
+                    userId: followeeId,
+                    tweetIndex: lastTweetIndex,
+                });
+            }
+        }
+
+        const newsFeed: number[] = [];
+        while (newsFeed.length < Twitter.FEED_SIZE && heap.size() > 0) {
+            const mostRecentNode = heap.pop()!;
+            newsFeed.push(mostRecentNode.tweet.id);
+
+            const fromUser = this.userMap[mostRecentNode.userId];
+            const nextTweetIndex = mostRecentNode.tweetIndex - 1;
+
+            if (nextTweetIndex >= 0) {
+                const nextTweet = fromUser.tweets[nextTweetIndex];
+                heap.push({
+                    tweet: nextTweet,
+                    userId: mostRecentNode.userId,
+                    tweetIndex: nextTweetIndex,
+                });
+            }
+        }
+
+        return newsFeed;
+    }
 }
 
 function testAction(description: string, action: () => any, expected?: any) {
