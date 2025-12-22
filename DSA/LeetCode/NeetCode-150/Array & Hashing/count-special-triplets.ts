@@ -17,3 +17,46 @@ function specialTriplets(nums: number[]): number {
 
     return count;
 }
+
+const MOD = 1_000_000_007;
+const MAX_VAL = 100001;
+function specialTripletsOptimized(nums: number[]): number {
+    const n = nums.length;
+    const rightFreq = buildFreq(nums);
+    const leftFreq = new Int32Array(MAX_VAL).fill(0);
+
+    let total: number = 0;
+
+    for (const curr of nums) {
+        rightFreq[curr]--;
+
+        const target = curr * 2;
+
+        if (isValid(target)) {
+            const leftCount = leftFreq[target];
+            const rightCount = rightFreq[target];
+
+            if (leftCount > 0 && rightCount > 0) {
+                const combinations = leftCount * rightCount;
+                total = (total + combinations) % MOD;
+            }
+        }
+
+        leftFreq[curr]++;
+    }
+
+    return total;
+}
+
+function buildFreq(nums: number[]): number[] {
+    const freq = new Int32Array(MAX_VAL).fill(0);
+    for (const num of nums) {
+        freq[num]++;
+    }
+
+    return freq as unknown as number[];
+}
+
+function isValid(target: number): boolean {
+    return target < MAX_VAL;
+}
